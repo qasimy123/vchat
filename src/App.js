@@ -10,7 +10,7 @@ import {sendChat} from "@andyet/simplewebrtc/actions";
 // Replace `YOUR_API_KEY` here with the API key you received when
 // signing up for SimpleWebRTC
 // --------------------------------------------------------------------
-const API_KEY = '55379bd328240aa9a2a0eea4';
+const API_KEY = '*******';
 // ====================================================================
 
 const ROOM_NAME = 'YOUR_ROOM_NAME';
