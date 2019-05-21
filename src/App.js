@@ -2,6 +2,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import * as SWRTC from "@andyet/simplewebrtc";
+import {sendChat} from "@andyet/simplewebrtc/actions";
 
 // ====================================================================
 // IMPORTANT SETUP
@@ -18,6 +19,22 @@ const CONFIG_URL = `https://api.simplewebrtc.com/config/guest/${API_KEY}`
 
 const store = SWRTC.createStore();
 
+
+
+const ChatMessageGroup= ({chats,peer}) => (
+    <div>
+        <div key={chats[0].id}>
+
+            <div>
+                {chats[0].displayName ? chats[0].displayName : 'Anonymous'}
+            </div>
+            <div>{chats[0].time.toLocaleTimeString()}</div>
+            {chats.map(message => (
+                <div key={message.id}>{message.body}</div>
+            ))}
+        </div>
+    </div>
+);
 function App() {
   return (
       <Provider store={store}>
@@ -38,7 +55,19 @@ function App() {
             <SWRTC.Room name={ROOM_NAME}>
               {(props) => {
                 /* Use the rest of the SWRTC React Components to render your UI */
-                  return(<SWRTC.ChatComposers/>)
+                  return(
+                      <div>
+
+                          <SWRTC.ChatList
+                              room={props.room.address}
+                              renderGroup={({ chats, peer }) => (
+                                  <ChatMessageGroup chats={chats} peer={peer} />
+                              )}
+                           />
+                          <SWRTC.ChatInput placeholder={'Hello'} room={props.room.address}/>
+                          <SWRTC.ChatComposers room={props.room.address} />
+                      </div>
+                      )
               }}
             </SWRTC.Room>
           </SWRTC.Connected>
